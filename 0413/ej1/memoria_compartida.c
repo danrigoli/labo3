@@ -6,12 +6,13 @@
 #include <sys/sem.h>
 #include "creo_clave.h"
 
+#define LARGO 100 
 
 typedef struct tipo_dato dato;
 
 struct tipo_dato
 {
-    char nombre_jugador[100];
+    char nombre_jugador[LARGO];
 	int numero_pensado;
     int estado_acierto;
 };

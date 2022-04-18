@@ -22,26 +22,28 @@ int main(int argc, char *argv[])
 	id_semaforo = creo_semaforo();
 	// inicio semaforo y memoria
 	inicia_semaforo(id_semaforo, 1);
-	memoria = (dato*)creo_memoria(sizeof(dato)*CANTIDAD, &id_memoria, CLAVE_BASE);
-    sleep(1); // sleep de 1s
+	memoria = (dato*)creo_memoria(sizeof(dato), &id_memoria, CLAVE_BASE);
+    sleep(3); // sleep de 3s para esperar a que el jugador se conecte
 
-	while(memoria[i].estado_acierto == 0)
+	while(memoria[0].estado_acierto == 0 && i < CANTIDAD)
 	{
         // pongo en espera el semaforo
 		espera_semaforo(id_semaforo);		
-        printf("Numero en memoria: %d\n", memoria[i].numero_pensado); // imprimo el numero que esta en memoria
-        local_pienso_un_numero = rand() % (HASTA - DESDE + 1) + DESDE; // pienso un numero con DESDE y HASTA
-        printf("Pense: %d\n", local_pienso_un_numero); // imprimo el numero que pienso
-
-        // si lo acierto cambio a memoria 1 y el loop terminara
-        if (memoria[i].numero_pensado == local_pienso_un_numero) {
-            memoria[i].estado_acierto = 1;
-            printf("%s", memoria[0].nombre_jugador);
-        }
-        // sino reseteo el numero del jugador y el loop continua
-        else {
-            memoria[i].numero_pensado = 0;
-            i++; // avanzo en memoria
+        if (memoria[0].numero_pensado != 0) {
+            printf("Numero en memoria: %d\n", memoria[0].numero_pensado); // imprimo el numero que esta en memoria (DEBUG)
+            local_pienso_un_numero = rand() % (HASTA - DESDE + 1) + DESDE; // pienso un numero con DESDE y HASTA
+            printf("Pense: %d\n", local_pienso_un_numero); // imprimo el numero que pienso (DEBUG)
+            
+            // si lo acierto cambio a memoria 1 y el loop terminara
+            if (memoria[0].numero_pensado == local_pienso_un_numero) {
+                memoria[0].estado_acierto = 1;
+                printf("%s", memoria[0].nombre_jugador);
+            }
+            // sino reseteo el numero del jugador y el loop continua
+            else {
+                memoria[0].numero_pensado = 0;
+                i++; // avanzo en memoria
+            }
         }
 		// levanto el semaforo
 		levanta_semaforo(id_semaforo);
