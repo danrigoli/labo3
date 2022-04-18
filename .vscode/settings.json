@@ -4,6 +4,10 @@
         "ipc.h": "c",
         "semaforo.h": "c",
         "sem.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "shm.h": "c",
+        "unistd.h": "c",
+        "memoria_compartida.h": "c",
+        "time.h": "c"
     }
 }
