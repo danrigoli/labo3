@@ -65,7 +65,7 @@ void procesar_evento(int id_cola_mensajes, mensaje msg)
 				count++;
 		    	}
 			inventario[codigo-1].cantidad+=cantidad;
-			break;
+		break;
 		default:
 			printf("\nEvento sin definir\n");
 		break;

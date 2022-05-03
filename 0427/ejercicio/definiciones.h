@@ -5,6 +5,15 @@
 #define CANT_SEMAFORO 1
 
 
+
+typedef struct tipo_cuenta cuenta;
+struct tipo_cuenta
+{
+	int codigo;
+   	int balance;
+};
+
+
 typedef struct tipo_datos datos;
 struct tipo_datos
 {

@@ -4,6 +4,13 @@
 
 #define INTERVALO_PEDIDOS 1000
 
+int id_cola_mensajes;
+mensaje	msg;
+int choice = 0;
+int account_id = 0;
+int dep_ext = 0;
+char message[100];
+
 void procesar_evento(int id_cola_mensajes, mensaje msg)
 {
 
@@ -24,7 +31,23 @@ void procesar_evento(int id_cola_mensajes, mensaje msg)
 		break;
 
 		case EVT_RTA_SALDO_NOK:
-			printf("Ocurrio un error al obtener el saldo: %s,\n", split);
+			printf("Ocurrio un error al obtener el saldo: %s \n", split);
+		break;
+
+		case EVT_RTA_DEPOSITO_OK:
+			printf("Deposito realizado con exito: %s \n", split);
+		break;
+
+		case EVT_RTA_DEPOSITO_NOK:
+			printf("Ocurrio un error al depositar: %s \n", split);
+		break;
+
+		case EVT_RTA_EXTRACCION_OK:
+			printf("Retiro realizado con exito: %s \n", split);
+		break;
+
+		case EVT_RTA_EXTRACCION_NOK:
+			printf("Ocurrio un error al retirar: %s \n", split);
 		break;
 
 		default:
@@ -36,11 +59,6 @@ void procesar_evento(int id_cola_mensajes, mensaje msg)
 
 int main()
 {
-	int id_cola_mensajes;
-	mensaje	msg;
-	int choice = 0;
-	int account_id = 0;
-	char message[100];
 
 	id_cola_mensajes = creo_id_cola_mensajes(CLAVE_BASE);
 
@@ -49,7 +67,6 @@ int main()
 
 	while(choice != 4)
 	{
-
 		printf("1. Consultar Saldo\n");
 		printf("2. Depositar\n");
 		printf("3. Extraer\n");
@@ -59,19 +76,25 @@ int main()
 		switch (choice)
 		{
 			case 1:
-				printf("Consultar Saldo\n");
+				printf("Consultando Saldo...\n");
 				sprintf(message, "%d", account_id);
 				enviar_mensaje(id_cola_mensajes , MSG_BANCO, MSG_CAJERO, EVT_CONSULTA_SALDO, message);
 				recibir_mensaje(id_cola_mensajes, MSG_CAJERO, &msg);
 				procesar_evento(id_cola_mensajes, msg);
 			break;
 			case 2:
-				enviar_mensaje(id_cola_mensajes , MSG_BANCO, MSG_CAJERO, EVT_DEPOSITO, "DEPOSITO");
+				printf("Ingrese el total a depositar: ");
+				scanf("%d", &dep_ext);
+				sprintf(message, "%d|%d", account_id, dep_ext);
+				enviar_mensaje(id_cola_mensajes , MSG_BANCO, MSG_CAJERO, EVT_DEPOSITO, message);
 				recibir_mensaje(id_cola_mensajes, MSG_CAJERO, &msg);
 				procesar_evento(id_cola_mensajes, msg);
 			break;
 			case 3:
-				enviar_mensaje(id_cola_mensajes , MSG_BANCO, MSG_CAJERO, EVT_EXTRACCION, "RETIRO");
+				printf("Ingrese el total a extraer: ");
+				scanf("%d", &dep_ext);
+				sprintf(message, "%d|%d", account_id, dep_ext);
+				enviar_mensaje(id_cola_mensajes , MSG_BANCO, MSG_CAJERO, EVT_EXTRACCION, message);
 				recibir_mensaje(id_cola_mensajes, MSG_CAJERO, &msg);
 				procesar_evento(id_cola_mensajes, msg);
 			break;
