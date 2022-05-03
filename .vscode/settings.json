@@ -8,6 +8,7 @@
         "shm.h": "c",
         "unistd.h": "c",
         "memoria_compartida.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "funciones.h": "c"
     }
 }

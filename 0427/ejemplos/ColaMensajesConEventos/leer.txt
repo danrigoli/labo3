@@ -1,0 +1,12 @@
+funciones.c 
+	Memoria compartida (generica)
+	Semaforos
+	Cola de mensajes.
+funciones.h
+	Definiciones de funciones.c 
+
+definiciones.h
+	Definiciones comunes
+
+gcc -o super supermercado.c funciones.c
+gcc -o rep repositor.c funciones.c
