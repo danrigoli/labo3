@@ -11,7 +11,6 @@
 #define TIEMPO_COMPRUEBA_HASTA  5000
 
 pthread_mutex_t mutex;
-int g_control = 0;
 
 typedef struct tipo_jugador tjugador;
 struct tipo_jugador
@@ -50,8 +49,10 @@ void *ThreadJugadores (void *parametro)
             printf("\nJugador %d pensó en %d\n", nro_jugador, random_number);
             ya_pensados[datos_thread->cantidad_aciertos] = random_number;
             if (penso_en == random_number) {
+				pthread_mutex_lock (&mutex);
                 alguien_acerto = nro_jugador;
                 *datos_thread->alguien_acerto = alguien_acerto;
+				pthread_mutex_unlock (&mutex);
             }
             
         datos_thread->cantidad_aciertos++;
@@ -101,13 +102,8 @@ int main(int argc, char *argv[])
 		
 	while(alguien_acerto == 0)
 	{
-
 		pthread_mutex_lock (&mutex);
-			if(g_control == 0) 
-			{
-				g_control = cantidad;				
-				
-			}
+		printf("Nadie adivino aún\n");
 		pthread_mutex_unlock (&mutex);
         usleep(100000);
 	};
