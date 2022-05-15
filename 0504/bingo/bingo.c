@@ -17,7 +17,7 @@ int g_carton_lleno = 0;
 int g_control = 0;
 
 /* Estructura tipo jugador */
-typedef struct tipo_jugador tjugador;
+
 struct tipo_jugador
 {
 	int 	nro_jugador;	
@@ -25,6 +25,8 @@ struct tipo_jugador
 	int  	cantidad_aciertos;
 	
 };
+
+typedef struct tipo_jugador tjugador;
 
 /* funcion de thread jugador */
 void *ThreadJugadores (void *parametro)

@@ -1,96 +1,44 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <string.h>
-#include <unistd.h>
-
-
-#define DESDE 		            1
-#define CANTIDAD_NUMEROS        99
-#define TIEMPO_COMPRUEBA_DESDE	500
-#define TIEMPO_COMPRUEBA_HASTA  5000
-
+#include "thread.h"
+	
 pthread_mutex_t mutex;
 
-typedef struct tipo_jugador tjugador;
-struct tipo_jugador
-{
-    int 	nro_jugador;
-	int* 	alguien_acerto;	
-	int  	penso;
-	int     cantidad_aciertos;
-};
 
-void *ThreadJugadores (void *parametro)
-{
-	int random_number;
-    int nro_jugador;
-	int alguien_acerto;
-	int penso_en;
-	int	i;
-    int ya_pensados[CANTIDAD_NUMEROS] = {0};
-    int habilitado = 1;
-
-    tjugador *datos_thread 	= (tjugador*) parametro;
-    nro_jugador = datos_thread->nro_jugador;
-	alguien_acerto = *datos_thread->alguien_acerto;
-	penso_en = datos_thread->penso;
-	
-	
-    while(alguien_acerto == 0)
-    {   
-        habilitado = 1;
-        random_number = rand()%(CANTIDAD_NUMEROS+1-DESDE)+DESDE;
-        for(i = 0; i < CANTIDAD_NUMEROS; i++)
-        {
-            if(random_number == ya_pensados[i]) habilitado = 0;	
-        }
-        if(habilitado == 1) {
-            printf("\nJugador %d pensó en %d\n", nro_jugador, random_number);
-            ya_pensados[datos_thread->cantidad_aciertos] = random_number;
-            if (penso_en == random_number) {
-				pthread_mutex_lock (&mutex);
-                alguien_acerto = nro_jugador;
-                *datos_thread->alguien_acerto = alguien_acerto;
-				pthread_mutex_unlock (&mutex);
-            }
-            
-        datos_thread->cantidad_aciertos++;
-        usleep(rand()%(TIEMPO_COMPRUEBA_HASTA-TIEMPO_COMPRUEBA_DESDE)+TIEMPO_COMPRUEBA_DESDE);
-        }
-    }
-	
-	pthread_exit ((void *)"Listo");
-}
-		
 int main(int argc, char *argv[])
 {
-	int i, ctl = 0;
+	/* variables locales */
+	int i = 0;
 	int cantidad = 1;
 	int pense = 0;
 	tjugador *datos_thread;
 	int alguien_acerto = 0;
-	int j;
 	pthread_t* idHilo;
     pthread_attr_t 	atributos;
     
+	/* si hay +1 argumento, el segundo es la cantidad de jugadores */
 	if (argc > 1)
 		cantidad = atoi(argv[1]);
-
-	printf("%d\n", cantidad);
 	
+	/* semilla rand */
 	srand(time(NULL));
     
+	/* numero random pensado */
     pense = rand()%(CANTIDAD_NUMEROS+1-DESDE)+DESDE;
     printf("Pense en: %d\n", pense);
+
+	/* se guarda memoria dinamica para un array de ids de hilo segun la cantidad de jugadores */
 	idHilo = (pthread_t* ) malloc(sizeof(pthread_t)*cantidad);
+
+	/* inicia atributos de threads con la variable atributos*/
 	pthread_attr_init (&atributos);
 	pthread_attr_setdetachstate (&atributos, PTHREAD_CREATE_JOINABLE);
 
+	/* inicializacion de mutex */
 	pthread_mutex_init (&mutex, NULL);
 
+	/* se guarda memoria dinamica para los datos a pasar al thread (parametro) x cantidad de jugadores*/
 	datos_thread = (tjugador*) malloc(sizeof(tjugador)*cantidad);
 
+	/* inicializacion de los datos de los jugadores en thread */
 	for(i = 0; i < cantidad; i++)
 	{
 		datos_thread[i].nro_jugador = i + 1;
@@ -99,19 +47,14 @@ int main(int argc, char *argv[])
         datos_thread[i].cantidad_aciertos = 0;
 		pthread_create (&idHilo[i], &atributos, ThreadJugadores, &datos_thread[i]);
 	}
-		
-	while(alguien_acerto == 0)
-	{
-		pthread_mutex_lock (&mutex);
-		printf("Nadie adivino aún\n");
-		pthread_mutex_unlock (&mutex);
-        usleep(100000);
-	};
 
+	/* espera a que alguien acierte */
+	while(alguien_acerto == 0) {}
+
+	/* une los hilos a main */
 	for(i=0; i< cantidad; i++)
 	{
 		pthread_join (idHilo[i], NULL);
-		printf("TERMINO\n");
 	}	
 
     printf("Adivino el jugador %d con %d aciertos\n", alguien_acerto, datos_thread[alguien_acerto - 1].cantidad_aciertos);
