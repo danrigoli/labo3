@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 
 	srand(time(NULL));
 	
+	/* toma la cantidad de jugadores del parametro del proceso si existe, sino es 1 por default */
     if (argc > 1) cantidad = atoi(argv[1]);
 
 	/* inicializa el vector de ids de hilos y inicializa los attr_t */
