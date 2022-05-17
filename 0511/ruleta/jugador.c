@@ -59,7 +59,7 @@ void *ThreadJugador (void *parametro)
                 si es un jugador que no disparo aun, avisa y termina
                 */
 
-                if (atoi(msg.char_mensaje) == nro_jugador) printf("Soy el jugador %d y perdi la ruleta", nro_jugador);
+                if (atoi(msg.char_mensaje) == nro_jugador) printf("Soy el jugador %d y perdi la ruleta \n", nro_jugador);
                 else printf("Soy el jugador %d y no pude jugar, se murio el jugador %d\n", nro_jugador, atoi(msg.char_mensaje));
                 done = 1;
             break;		    	
