@@ -12,6 +12,7 @@
         "funciones.h": "c",
         "string.h": "c",
         "pthread.h": "c",
-        "thread.h": "c"
+        "thread.h": "c",
+        "bolillero.h": "c"
     }
 }
