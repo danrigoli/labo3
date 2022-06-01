@@ -1,4 +1,12 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#include <pthread.h>
 #include "bolillero.h"
+#include "funciones.h"
+#include "definiciones.h"
 
 #define VEHICULOS_DESDE 1
 #define VEHICULOS_HASTA 2

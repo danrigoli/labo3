@@ -3,8 +3,6 @@
 
 
 #include <pthread.h>
-#include "funciones.h"
-#include "definiciones.h"
 
 /* definicion de constantes */
 #define CANTIDAD 		        6

@@ -13,6 +13,7 @@
         "string.h": "c",
         "pthread.h": "c",
         "thread.h": "c",
-        "bolillero.h": "c"
+        "bolillero.h": "c",
+        "definiciones.h": "c"
     }
 }

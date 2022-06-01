@@ -1,4 +1,12 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#include <pthread.h>
 #include "bolillero.h"
+#include "funciones.h"
+#include "definiciones.h"
 
 /* funcion para enviar a todos los jugadores un mensaje */
 void send_massive(int cantidad, int id_cola_mensajes, int evento, char mensaje[1]) {

@@ -1,3 +1,9 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include "funciones.h"
+#include "definiciones.h"
 #include "jugador.h"
 
 /* mutex para que no disparen multiples jugadores al mismo tiempo */
@@ -9,7 +15,7 @@ int main(int argc, char *argv[])
 
 	int id_cola_mensajes;
 	int i = 0;
-	int* vector_tambor = malloc(sizeof(int)*CANTIDAD);
+	int* vector_tambor;
 	tjugador *datos_thread;
 	pthread_t* idHilo;
 	pthread_attr_t 	atributos;
@@ -18,6 +24,9 @@ int main(int argc, char *argv[])
 	
 	/* consigue el id de la cola con la clave base */
 	id_cola_mensajes = creo_id_cola_mensajes(CLAVE_BASE);
+
+	/* crea un vector para simular el tambor */
+	vector_tambor = malloc(sizeof(int)*CANTIDAD);
 
 	/* guarda el espacio en memoria de idHilo con la cantidad de threads */
 	idHilo = (pthread_t* ) malloc(sizeof(pthread_t)*CANTIDAD);
