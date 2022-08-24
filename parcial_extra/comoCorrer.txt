@@ -1,0 +1,7 @@
+si se quiere compilar, ejecutar:
+- gcc-6 -std=gnu89 -pedantic-errors -o cci cci.c memoria_compartida.c creo_clave.c semaforo.c
+- gcc-6 -std=gnu89 -pedantic-errors -o panel panel.c memoria_compartida.c creo_clave.c semaforo.c
+
+luego se ejecutan:
+- ./cci
+- ./panel nro_panel

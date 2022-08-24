@@ -1,0 +1,7 @@
+Para ejecutar el programa debe correr:
+make -f Makefile
+./hipodromo <cantidad_caballos>
+./main <cantidad_caballos>
+
+Estos pueden ser en cualquier orden, si empieza con main va a esperar a que hipodromo envie la distancia, y si empieza
+con hipodromo va a esperar a que los caballos envien sus metros.
